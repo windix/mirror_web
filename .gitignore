@@ -1,0 +1,10 @@
+log/*.log
+tmp/**/*
+doc/api
+doc/app
+*.sw?
+db/*.sqlite?
+.DS\_Store
+config/database.yml
+*.sql
+public/assets/*

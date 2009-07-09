@@ -1,0 +1,91 @@
+body { background-color: #fff; color: #333; }
+
+body, p, ol, ul, td {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size:   13px;
+  line-height: 18px;
+}
+
+a {
+  text-decoration: none;
+}
+
+#content {
+  width: 800px;
+  /* border: 1px solid red; */
+  margin: auto;
+}
+
+#bookmark_list {
+  padding-left: 0;
+}
+  
+#bookmark_list li {
+  list-style-position: outside;
+  list-style-type: none;
+}
+
+#bookmark_list h3 {
+  display: inline;
+  color: #999;
+  text-align: left;
+  font-size: 13px;
+  font-weight: normal;
+}
+
+.date_group {
+  border-top: 1px solid #D5D5D5;
+  padding: 4px 0 4px;
+}
+
+.bookmarks {
+  margin: -18px 0 10px 60px;
+}
+
+.bookmark {
+  margin-bottom: 5px;
+}
+
+.bookmark h4 {
+  display: inline;
+  color: #1259C7;
+  font-size: 130%;
+  font-weight: normal;
+}
+
+.bookmark a {
+  color: #666;
+}
+
+.bookmark a:hover {
+  color: #fff;
+  background-color: #666;
+}
+
+.time {
+  color: gray;
+  font-style: italic;
+}
+
+.meta, .pagination {
+  font-size: 13px;
+  color: #ABC4E1;
+}
+
+.meta a, .pagination a {
+  color: #7991B3;
+}
+
+.meta a:hover, .pagination a:hover {
+  color: #FFF;
+  background-color: #7991B3;
+}
+
+.pagination {
+  color: #666;
+  text-align: center;
+}
+
+.pagination .current {
+  color: #000;
+}

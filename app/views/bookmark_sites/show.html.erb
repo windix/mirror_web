@@ -1,0 +1,23 @@
+<p>
+  <b>Url:</b>
+  <%=h @bookmark_site.url %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%=h @bookmark_site.title %>
+</p>
+
+<p>
+  <b>Notes:</b>
+  <%=h @bookmark_site.notes %>
+</p>
+
+<p>
+  <b>Mirror:</b>
+  <%=link_to 'Mirror', @bookmark_site.mirror_url %>
+</p>
+
+
+<%= link_to 'Edit', edit_bookmark_site_path(@bookmark_site) %> |
+<%= link_to 'Back', bookmark_sites_path %>

@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  bookmark_site_id: 1
+  hash: MyString
+  extname: MyString
+
+two:
+  bookmark_site_id: 1
+  hash: MyString
+  extname: MyString
