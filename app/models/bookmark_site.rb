@@ -71,7 +71,7 @@ class BookmarkSite < ActiveRecord::Base
             asset.last_modified ||= Time.zone.at(0)
             
             unless bookmark_asset = BookmarkAsset.existing_asset?(asset)
-              bookmark_asset = bookmark_assets.create(
+              bookmark_asset = BookmarkAsset.create(
                 :hashcode => asset.hashcode, 
                 :extname => asset.extname,
                 :last_modified => asset.last_modified)
