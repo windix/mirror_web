@@ -10,9 +10,15 @@
 </head>
 <body>
 
+<div id="content">
+<div id="login_logout">
+  <%= render :partial => "users/user_bar" %>
+</div>
+
 <p style="color: green"><%= flash[:notice] %></p>
 
 <%= yield %>
+</div>
 
 </body>
 </html>

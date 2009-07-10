@@ -1,12 +1,17 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :bookmark_sites, 
-    :as => 'bookmarks', 
-    :member => { :version => :get }
+  map.logout '/logout', :controller => 'sessions', :action => 'destroy'
+  map.login '/login', :controller => 'sessions', :action => 'new'
+  map.register '/register', :controller => 'users', :action => 'create'
+  map.signup '/signup', :controller => 'users', :action => 'new'
+  map.resources :users
 
-  map.resources :tags, 
-    :path_prefix => 'bookmarks', 
-    :only => [ :show ]
+  map.resource :session
 
+  map.resources :bookmark_sites, :as => 'bookmarks', :member => { :version => :get }
+
+  map.resources :tags, :path_prefix => 'bookmarks', :only => [ :show ]
+
+  map.root :controller => 'bookmark_sites'
 
   #map.resources :tags, :except => [:index, :new, :create, :edit, :update, :destroy]
 

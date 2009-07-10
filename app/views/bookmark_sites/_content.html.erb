@@ -1,49 +1,49 @@
-<div id="content">
-  <div id="left_panel">
-    <span class="meta">
-      <%= link_to 'New', new_bookmark_site_path %>
-      | <%= link_to 'Bookmarklet', bookmarklet %>  
-    </span>
-    
-    <ul id="bookmark_list">
-      <% date_groups_order.each do |date| %>
-        <li class="date_group">
-        <h3><%= date %></h3>
-        <ul class="bookmarks">
-          <% date_groups[date].each do |bookmark_site| %>
-            <li class="bookmark">
-            <h4><%= link_to bookmark_site.title, bookmark_site.mirror_url %></h4>
-            <span class="time"><%= bookmark_site.updated_at.to_s(:au_time) %></span>
-            <div class="tags">
-              <% bookmark_site.tag_list.each do |tag| %>
-                <%= link_to tag, tag_path(tag) %> 
-              <% end %>
-            </div>
-            <div class="meta">
-              Last modified: <%= bookmark_site.home_asset.last_modified.to_s(:au_time) %>
-              | <%= link_to 'Orginal', bookmark_site.url %>
-              | <%= link_to versions(bookmark_site), version_bookmark_site_path(bookmark_site) %>
-              | <%= link_to 'Edit', edit_bookmark_site_path(bookmark_site) %>
-              | <%= link_to 'Delete', bookmark_site, :confirm => 'Are you sure?', :method => :delete %>
-            </div>
-            </li>
-          <% end %> 
-        </ul>
-        </li>
-      <% end %>
-    </ul>
+<div id="left_panel">
+  <span class="meta">
+    <%= link_to 'New', new_bookmark_site_path %>
+    | <%= link_to 'Bookmarklet', bookmarklet %>  
+  </span>
+  
+  <ul id="bookmark_list">
+    <% date_groups_order.each do |date| %>
+      <li class="date_group">
+      <h3><%= date %></h3>
+      <ul class="bookmarks">
+        <% date_groups[date].each do |bookmark_site| %>
+          <li class="bookmark">
+          <h4><%= link_to bookmark_site.title, bookmark_site.mirror_url %></h4>
+          <span class="time"><%= bookmark_site.updated_at.to_s(:au_time) %></span>
+          <div class="tags">
+            <% bookmark_site.tag_list.each do |tag| %>
+              <%= link_to tag, tag_path(tag) %> 
+            <% end %>
+          </div>
+          <div class="meta">
+            Last modified: <%= bookmark_site.home_asset.last_modified.to_s(:au_time) %>
+            | <%= link_to 'Orginal', bookmark_site.url %>
+            | <%= link_to versions(bookmark_site), version_bookmark_site_path(bookmark_site) %>
+            <% if logged_in? %>
+            | <%= link_to 'Edit', edit_bookmark_site_path(bookmark_site) %>
+            | <%= link_to 'Delete', bookmark_site, :confirm => 'Are you sure?', :method => :delete %>
+            <% end %>
+          </div>
+          </li>
+        <% end %> 
+      </ul>
+      </li>
+    <% end %>
+  </ul>
 
-    <%= will_paginate bookmarks %>
+  <%= will_paginate bookmarks %>
 
-    <div class="meta"><%= link_to "Home", bookmark_sites_path %></div>
-  </div>
+  <div class="meta"><%= link_to "Home", bookmark_sites_path %></div>
+</div>
 
-  <div id="right_panel">
-    <h2>Tags</h2>
-    <div class="tags">
-      <% tag_cloud @tags, %w{css1 css2 css3 css4} do |tag, css_class| %>
-        <%= link_to "#{tag.name} (#{tag.count})", tag_path(tag.name), :class => css_class %><br />
-      <% end %>
-    </div>
+<div id="right_panel">
+  <h2>Tags</h2>
+  <div class="tags">
+    <% tag_cloud @tags, %w{css1 css2 css3 css4} do |tag, css_class| %>
+      <%= link_to "#{tag.name} (#{tag.count})", tag_path(tag.name), :class => css_class %><br />
+    <% end %>
   </div>
 </div>
