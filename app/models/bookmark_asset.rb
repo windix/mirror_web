@@ -2,7 +2,7 @@ class BookmarkAsset < ActiveRecord::Base
   has_and_belongs_to_many :bookmark_sites,
     :join_table => 'bookmark_relations'
   
-  has_one :site_use_this_as_home,
+  has_many :site_use_this_as_home,
     :class_name => 'BookmarkSite',
     :foreign_key => 'home_asset_id'
 
@@ -27,9 +27,5 @@ class BookmarkAsset < ActiveRecord::Base
   def self.existing_asset?(asset)
     BookmarkAsset.find_by_hashcode_and_last_modified(
       asset.hashcode, asset.last_modified.in_time_zone)
-  end
-
-  def versions
-    BookmarkAsset.find_all_by_hashcode self.hashcode, :order => "last_modified DESC"
   end
 end

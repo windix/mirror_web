@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
   
   protected
   def tag_cloud
-    @tags = BookmarkSite.tag_counts
+    if logged_in?
+      @tags = BookmarkSite.tag_counts :conditions => ['user_id = ?', current_user.id]
+    else
+      @tags = BookmarkSite.tag_counts
+    end
   end
 end

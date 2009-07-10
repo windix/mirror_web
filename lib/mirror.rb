@@ -203,7 +203,7 @@ class Asset
         @content_type = f.content_type
         @source = escape_url(f.base_uri.to_s)
         @charset = f.charset
-        @last_modified = f.last_modified || Time.at(0)
+        @last_modified = f.last_modified || Time.zone.now
         @data = f.read
       end
       

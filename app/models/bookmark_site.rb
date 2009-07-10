@@ -17,36 +17,27 @@ class BookmarkSite < ActiveRecord::Base
 
   named_scope :all, :order => "updated_at DESC", :include => [ :home_asset, :user ]
   
-  validates_presence_of :url
-  validates_format_of :url, 
-    :with => /^https?:\/\//
+  named_scope :all_for_user, lambda { |user| 
+    { :conditions => ['user_id = ?', user.id],
+      :order => "updated_at DESC", :include => [ :home_asset, :user ] }
+  }
 
-  def existing_site?
-    @existing_site
-  end
+  validates_presence_of :url
+  validates_format_of :url, :with => /^https?:\/\//
 
   def mirror_url
     home_asset ? home_asset.mirror_url : nil
   end
-  
-  def versions
-    return [] unless home_asset
-    
-    sites = []
-    home_asset.versions.each do |asset|
-      sites << asset.site_use_this_as_home if asset.site_use_this_as_home 
-    end
-
-    sites
-  end
-
+ 
   def self.per_page
     10
   end
 
+  def existing_site?
+    ! @existing_site.nil?
+  end
+
   def save_bookmark
-    @existing_site = false
-    
     return false unless self.valid?
 
     # fetch web pages
@@ -56,13 +47,13 @@ class BookmarkSite < ActiveRecord::Base
       # update title
       self.title = "NO TITLE" if self.title.blank?
       
-      if asset = BookmarkAsset.existing_asset?(site.home_asset) 
-        @existing_site = true
+      if @existing_site = find_existing_site?(site.home_asset)
         
         # update existing site's last update time
-        asset.site_use_this_as_home.update_attributes!(
+        @existing_site.update_attributes!(
           :title => self.title,
-          :notes => self.notes)
+          :notes => self.notes,
+          :updated_at => Time.zone.now)
         
         true
       else
@@ -72,8 +63,6 @@ class BookmarkSite < ActiveRecord::Base
         # save assets
         site.assets.each do |source, asset|
           if asset.retrieved
-            asset.last_modified ||= Time.zone.at(0)
-            
             unless bookmark_asset = BookmarkAsset.existing_asset?(asset)
               bookmark_asset = BookmarkAsset.create(
                 :hashcode => asset.hashcode, 
@@ -123,4 +112,15 @@ class BookmarkSite < ActiveRecord::Base
     [groups, groups_order]
   end
 
+  def versions
+    BookmarkSite.find_by_sql(['SELECT site.* FROM bookmark_sites as site inner join bookmark_assets as asset on site.home_asset_id = asset.id WHERE asset.hashcode = ? ORDER BY asset.last_modified DESC', self.home_asset.hashcode]) if self.home_asset
+  end
+
+  private
+
+  def find_existing_site?(asset)
+    results = BookmarkSite.find_by_sql(['SELECT site.* FROM bookmark_sites as site inner join bookmark_assets as asset on site.home_asset_id = asset.id WHERE asset.hashcode = ? and asset.last_modified = ? and site.user_id = ?', 
+                          asset.hashcode, asset.last_modified.in_time_zone, self.user_id])
+    return results[0] unless results.size == 0
+  end
 end

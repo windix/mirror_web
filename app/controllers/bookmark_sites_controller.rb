@@ -4,7 +4,12 @@ class BookmarkSitesController < ApplicationController
   # GET /bookmark_sites
   # GET /bookmark_sites.xml
   def index
-    @bookmarks = BookmarkSite.all.paginate :page => params[:page]
+    if logged_in?
+      @bookmarks = BookmarkSite.all_for_user(current_user).paginate :page => params[:page]
+    else
+      @bookmarks = BookmarkSite.all.paginate :page => params[:page]
+    end
+    
     @date_groups, @date_groups_order = BookmarkSite.group_bookmarks_by_date(@bookmarks)
 
     tag_cloud
