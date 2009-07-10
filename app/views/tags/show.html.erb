@@ -1,0 +1,7 @@
+<h1>Bookmarks</h1>
+<h2>Tags: <%= params[:id] %></h2>
+
+<%= render :partial => 'bookmark_sites/content', 
+  :locals => { :date_groups_order => @date_groups_order,
+  :date_groups => @date_groups,
+  :bookmarks => @bookmarks } %>

@@ -3,7 +3,9 @@ class BookmarkSitesController < ApplicationController
   # GET /bookmark_sites.xml
   def index
     @bookmarks = BookmarkSite.all.paginate :page => params[:page]
-    @date_groups, @date_groups_order = group_bookmarks_by_date(@bookmarks)
+    @date_groups, @date_groups_order = BookmarkSite.group_bookmarks_by_date(@bookmarks)
+
+    tag_cloud
 
     respond_to do |format|
       format.html # index.html.erb
@@ -17,7 +19,9 @@ class BookmarkSitesController < ApplicationController
     @bookmark = BookmarkSite.find(params[:id])
 
     @bookmarks = @bookmark.versions.paginate :page => params[:page]
-    @date_groups, @date_groups_order = group_bookmarks_by_date(@bookmarks)
+    @date_groups, @date_groups_order = BookmarkSite.group_bookmarks_by_date(@bookmarks)
+
+    tag_cloud
 
     respond_to do |format|
       format.html # index.html.erb
@@ -103,25 +107,4 @@ class BookmarkSitesController < ApplicationController
       format.xml  { head :ok }
     end
   end
-
-  private
-  def group_bookmarks_by_date(bookmarks)
-    groups = {}
-    groups_order = []
-    
-    bookmarks.each do |bookmark|
-      if bookmark
-        date = bookmark.updated_at.to_s(:au_date)
-        
-        groups[date] ||= begin
-                          groups_order << date; []
-                         end
-
-        groups[date] << bookmark
-      end
-    end
-    
-    [groups, groups_order]
-  end
-
 end

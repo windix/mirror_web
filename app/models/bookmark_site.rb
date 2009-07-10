@@ -1,6 +1,8 @@
 require 'mirror'
 
 class BookmarkSite < ActiveRecord::Base
+  acts_as_taggable
+  
   # has_many :bookmark_assets, 
   #   :dependent => :delete_all #:destroy
   
@@ -99,4 +101,24 @@ class BookmarkSite < ActiveRecord::Base
     errors.add_to_base("#{exception.message}, please try again")
     false
   end
+
+  def self.group_bookmarks_by_date(bookmarks)
+    groups = {}
+    groups_order = []
+    
+    bookmarks.each do |bookmark|
+      if bookmark
+        date = bookmark.updated_at.to_s(:au_date)
+        
+        groups[date] ||= begin
+                          groups_order << date; []
+                         end
+
+        groups[date] << bookmark
+      end
+    end
+    
+    [groups, groups_order]
+  end
+
 end

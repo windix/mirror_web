@@ -1,5 +1,14 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :bookmark_sites, :member => { :version => :get }
+  map.resources :bookmark_sites, 
+    :as => 'bookmarks', 
+    :member => { :version => :get }
+
+  map.resources :tags, 
+    :path_prefix => 'bookmarks', 
+    :only => [ :show ]
+
+
+  #map.resources :tags, :except => [:index, :new, :create, :edit, :update, :destroy]
 
   # The priority is based upon order of creation: first created -> highest priority.
 

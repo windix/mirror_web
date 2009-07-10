@@ -11,9 +11,21 @@ a {
 }
 
 #content {
-  width: 800px;
-  /* border: 1px solid red; */
+  width: 1000px;
   margin: auto;
+  /* border: 1px solid red; */
+}
+
+#left_panel {
+  width: 700px;
+  float: left;
+  /* border: 1px solid blue; */
+}
+
+#right_panel {
+  width: 250px;
+  margin-left: 720px;
+  /* border: 1px solid blue; */
 }
 
 #bookmark_list {
@@ -72,11 +84,11 @@ a {
   color: #ABC4E1;
 }
 
-.meta a, .pagination a {
+.meta a, .pagination a, .tags a {
   color: #7991B3;
 }
 
-.meta a:hover, .pagination a:hover {
+.meta a:hover, .pagination a:hover, .tags a:hover {
   color: #FFF;
   background-color: #7991B3;
 }
@@ -89,3 +101,8 @@ a {
 .pagination .current {
   color: #000;
 }
+
+.css1 { font-size: 90%; }
+.css2 { font-size: 100%; }
+.css3 { font-size: 110%; }
+.css4 { font-size: 120%; }

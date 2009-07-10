@@ -7,4 +7,9 @@ class ApplicationController < ActionController::Base
 
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
+  
+  protected
+  def tag_cloud
+    @tags = BookmarkSite.tag_counts
+  end
 end
