@@ -63,6 +63,7 @@ class BookmarkSitesController < ApplicationController
   # POST /bookmark_sites.xml
   def create
     @bookmark_site = BookmarkSite.new(params[:bookmark_site])
+    @bookmark_site.user = current_user
 
     respond_to do |format|
       if @bookmark_site.save_bookmark

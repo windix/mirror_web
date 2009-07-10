@@ -13,7 +13,9 @@ class BookmarkSite < ActiveRecord::Base
     :class_name => 'BookmarkAsset',
     :foreign_key => 'home_asset_id'
 
-  named_scope :all, :order => "updated_at DESC", :include => :home_asset
+  belongs_to :user
+
+  named_scope :all, :order => "updated_at DESC", :include => [ :home_asset, :user ]
   
   validates_presence_of :url
   validates_format_of :url, 
