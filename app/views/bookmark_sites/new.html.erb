@@ -17,6 +17,9 @@
     <%= f.text_area :notes, :cols => 60, :rows => 10 %>
   </p>
   <p>
+    Do not share <%= f.check_box :do_not_share %>
+  </p>
+  <p>
     <%= f.label :tag_list %><br />
     <%= f.text_field :tag_list, :size => 60 %>
   </p>

@@ -15,7 +15,7 @@ class BookmarkSite < ActiveRecord::Base
 
   belongs_to :user
 
-  named_scope :all, :order => "updated_at DESC", :include => [ :home_asset, :user ]
+  named_scope :all, :order => "updated_at DESC", :conditions => ['do_not_share = ?', 0], :include => [ :home_asset, :user ]
   
   named_scope :all_for_user, lambda { |user| 
     { :conditions => ['user_id = ?', user.id],
@@ -113,7 +113,7 @@ class BookmarkSite < ActiveRecord::Base
   end
 
   def versions
-    BookmarkSite.find_by_sql(['SELECT site.* FROM bookmark_sites as site inner join bookmark_assets as asset on site.home_asset_id = asset.id WHERE asset.hashcode = ? ORDER BY asset.last_modified DESC', self.home_asset.hashcode]) if self.home_asset
+    BookmarkSite.find_by_sql(['SELECT site.* FROM bookmark_sites as site inner join bookmark_assets as asset on site.home_asset_id = asset.id WHERE site.do_not_share = 0 AND asset.hashcode = ? ORDER BY asset.last_modified DESC', self.home_asset.hashcode]) if self.home_asset
   end
 
   private
