@@ -20,9 +20,10 @@
           </div>
           <div class="meta">
             <%= bookmark_site.user.login %>
-            | Last modified: <%= bookmark_site.home_asset.last_modified.to_s(:au_time) %>
             | <%= link_to 'Orginal', bookmark_site.url %>
-            | <%= link_to versions(bookmark_site), version_bookmark_site_path(bookmark_site) %>
+            <% if controller.action_name != 'versions' %>
+            | <%= link_to versions_tag(bookmark_site), versions_bookmark_site_path(bookmark_site) %>
+            <% end %>
             <% if logged_in? && bookmark_site.user_id == current_user.id %>
             | <%= link_to 'Edit', edit_bookmark_site_path(bookmark_site) %>
             | <%= link_to 'Delete', bookmark_site, :confirm => 'Are you sure?', :method => :delete %>

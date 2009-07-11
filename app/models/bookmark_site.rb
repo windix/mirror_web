@@ -26,7 +26,7 @@ class BookmarkSite < ActiveRecord::Base
   validates_format_of :url, :with => /^https?:\/\//
 
   def mirror_url
-    home_asset ? home_asset.mirror_url : nil
+    home_asset.mirror_url if home_asset
   end
  
   def self.per_page
@@ -35,6 +35,10 @@ class BookmarkSite < ActiveRecord::Base
 
   def existing_site?
     ! @existing_site.nil?
+  end
+
+  def last_modified
+    home_asset.last_modified if home_asset
   end
 
   def save_bookmark
@@ -93,14 +97,15 @@ class BookmarkSite < ActiveRecord::Base
     false
   end
 
-  def self.group_bookmarks_by_date(bookmarks)
+  def self.group_bookmarks_by_date(bookmarks, sort_date_by = :updated_at)
     groups = {}
     groups_order = []
     
     bookmarks.each do |bookmark|
       if bookmark
-        date = bookmark.updated_at.to_s(:au_date)
-        
+        #date = bookmark.updated_at.to_s(:au_date)
+        date = bookmark.send(sort_date_by).to_s(:au_date)
+
         groups[date] ||= begin
                           groups_order << date; []
                          end

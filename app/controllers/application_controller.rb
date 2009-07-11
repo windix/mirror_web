@@ -18,4 +18,9 @@ class ApplicationController < ActionController::Base
       @tags = BookmarkSite.tag_counts :conditions => ['do_not_share = ?', 0]
     end
   end
+
+  def tag_cloud_for_versions(bookmarks)
+    ids = bookmarks.collect { |bookmark| bookmark.id }.join(",")
+    @tags = BookmarkSite.tag_counts :conditions => "bookmark_sites.id in (#{ids})"
+  end
 end

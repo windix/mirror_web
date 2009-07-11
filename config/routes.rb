@@ -7,7 +7,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resource :session
 
-  map.resources :bookmark_sites, :as => 'bookmarks', :member => { :version => :get }
+  map.resources :bookmark_sites, :as => 'bookmarks', :member => { :versions => :get }
 
   map.resources :tags, :path_prefix => 'bookmarks', :only => [ :show ]
 

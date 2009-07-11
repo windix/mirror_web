@@ -22,13 +22,13 @@ class BookmarkSitesController < ApplicationController
 
   # GET /bookmark_sites/1/version
   # GET /bookmark_sites/1/version.xml
-  def version
+  def versions
     @bookmark = BookmarkSite.find(params[:id])
 
     @bookmarks = @bookmark.versions(current_user).paginate :page => params[:page]
-    @date_groups, @date_groups_order = BookmarkSite.group_bookmarks_by_date(@bookmarks)
+    @date_groups, @date_groups_order = BookmarkSite.group_bookmarks_by_date(@bookmarks, :last_modified)
 
-    tag_cloud
+    tag_cloud_for_versions(@bookmarks)
 
     respond_to do |format|
       format.html # index.html.erb
