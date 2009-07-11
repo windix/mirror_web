@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
     if logged_in?
       @tags = BookmarkSite.tag_counts :conditions => ['user_id = ?', current_user.id]
     else
-      @tags = BookmarkSite.tag_counts
+      @tags = BookmarkSite.tag_counts :conditions => ['do_not_share = ?', 0]
     end
   end
 end

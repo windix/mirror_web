@@ -112,8 +112,18 @@ class BookmarkSite < ActiveRecord::Base
     [groups, groups_order]
   end
 
-  def versions
-    BookmarkSite.find_by_sql(['SELECT site.* FROM bookmark_sites as site inner join bookmark_assets as asset on site.home_asset_id = asset.id WHERE site.do_not_share = 0 AND asset.hashcode = ? ORDER BY asset.last_modified DESC', self.home_asset.hashcode]) if self.home_asset
+  def versions(user)
+    return [] unless self.home_asset
+    bookmarks = BookmarkSite.find_by_sql(['SELECT site.* FROM bookmark_sites as site inner join bookmark_assets as asset on site.home_asset_id = asset.id WHERE asset.hashcode = ? ORDER BY asset.last_modified DESC', self.home_asset.hashcode]) if self.home_asset
+
+    unless user.nil?
+      # remove all other user's 'do_not_share' items
+      bookmarks.reject { |bookmark| bookmark.do_not_share == 1 && bookmark.user_id != user.id }
+
+    else
+      # remove all 'do_not_share' items
+      bookmarks.reject { |bookmark| bookmark.do_not_share == 1 }
+    end
   end
 
   private

@@ -23,7 +23,7 @@
             | Last modified: <%= bookmark_site.home_asset.last_modified.to_s(:au_time) %>
             | <%= link_to 'Orginal', bookmark_site.url %>
             | <%= link_to versions(bookmark_site), version_bookmark_site_path(bookmark_site) %>
-            <% if logged_in? %>
+            <% if logged_in? && bookmark_site.user_id == current_user.id %>
             | <%= link_to 'Edit', edit_bookmark_site_path(bookmark_site) %>
             | <%= link_to 'Delete', bookmark_site, :confirm => 'Are you sure?', :method => :delete %>
             <% end %>

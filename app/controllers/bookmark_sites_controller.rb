@@ -25,7 +25,7 @@ class BookmarkSitesController < ApplicationController
   def version
     @bookmark = BookmarkSite.find(params[:id])
 
-    @bookmarks = @bookmark.versions.paginate :page => params[:page]
+    @bookmarks = @bookmark.versions(current_user).paginate :page => params[:page]
     @date_groups, @date_groups_order = BookmarkSite.group_bookmarks_by_date(@bookmarks)
 
     tag_cloud

@@ -5,6 +5,6 @@ module BookmarkSitesHelper
   end
   
   def versions(site)
-    pluralize site.versions.size, "version"
+    pluralize site.versions(current_user).size, "version"
   end
 end
