@@ -1,3 +1,5 @@
+require 'delicious'
+
 class BookmarkSitesController < ApplicationController
   before_filter :login_required, :only => [ :new, :edit, :create, :update, :destroy ]
 
@@ -52,6 +54,10 @@ class BookmarkSitesController < ApplicationController
   def new
     @bookmark_site = BookmarkSite.new(:url => params[:url],
       :title => params[:title])
+    
+    if params[:url]
+      @bookmark_site.tag_list = @delicious.suggest_tags(params[:url]).join(", ")
+    end
 
     respond_to do |format|
       format.html # new.html.erb

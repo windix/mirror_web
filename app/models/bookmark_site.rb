@@ -57,6 +57,7 @@ class BookmarkSite < ActiveRecord::Base
         @existing_site.update_attributes!(
           :title => self.title,
           :notes => self.notes,
+          :tag_list => self.taglist,
           :updated_at => Time.zone.now)
         
         true

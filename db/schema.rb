@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090710105155) do
+ActiveRecord::Schema.define(:version => 20090711093752) do
 
   create_table "bookmark_assets", :force => true do |t|
     t.string   "hashcode"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20090710105155) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.integer  "do_not_share"
+    t.string   "cached_tag_list"
   end
 
   create_table "taggings", :force => true do |t|

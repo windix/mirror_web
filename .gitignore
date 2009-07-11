@@ -9,3 +9,4 @@ config/database.yml
 *.sql
 public/assets/*
 config/initializers/site_keys.rb
+config/delicious.yml
