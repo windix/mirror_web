@@ -1,4 +1,5 @@
 require 'mirror'
+require 'rest_client'
 
 class BookmarkSite < ActiveRecord::Base
   acts_as_taggable
@@ -43,25 +44,25 @@ class BookmarkSite < ActiveRecord::Base
 
   def save_bookmark
     return false unless self.valid?
-
-    # fetch web pages
-    site = Site.new(url, ASSETS_ROOT, false, logger)
-
-    if (site.mirror_completed)
-      # update title
-      self.title = "NO TITLE" if self.title.blank?
       
-      if @existing_site = find_existing_site?(site.home_asset)
-        
+    # update title
+    self.title = "NO TITLE" if self.title.blank?
+
+    if @existing_site = find_existing_site?(self.url)
         # update existing site's last update time
         @existing_site.update_attributes!(
           :title => self.title,
           :notes => self.notes,
-          :tag_list => self.taglist,
+          :tag_list => self.tag_list,
           :updated_at => Time.zone.now)
         
         true
-      else
+    else
+      # fetch web pages
+      site = Site.new(url, ASSETS_ROOT, false, logger)
+
+      if (site.mirror_completed)
+        
         # save site
         self.save!
           
@@ -86,11 +87,11 @@ class BookmarkSite < ActiveRecord::Base
         
         self.save!
         true
+      else
+        errors.add_to_base("Failed to mirror the web page, please try again")
+        false
       end
-    else
-      errors.add_to_base("Failed to mirror the web page, please try again")
-      false
-    end
+    end 
   
   rescue => exception
     logger.info exception
@@ -134,9 +135,21 @@ class BookmarkSite < ActiveRecord::Base
 
   private
 
-  def find_existing_site?(asset)
+  def find_existing_site?(url)
+    #TODO user-agent
+    
+    response = RestClient.head(url, :accept => '*/*')
+    
+    last_modified = if v = response.headers[:last_modified] 
+                      Time.httpdate(v)
+                    else
+                      Time.now
+                    end
+
+    hashcode = Asset.calculate_hashcode(response.url)
+
     results = BookmarkSite.find_by_sql(['SELECT site.* FROM bookmark_sites as site inner join bookmark_assets as asset on site.home_asset_id = asset.id WHERE asset.hashcode = ? and asset.last_modified = ? and site.user_id = ?', 
-                          asset.hashcode, asset.last_modified.in_time_zone, self.user_id])
+                          hashcode, last_modified.in_time_zone, self.user_id])
     return results[0] unless results.size == 0
   end
 end

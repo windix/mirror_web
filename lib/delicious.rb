@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'rest_client'
 require 'rexml/document'
 require 'logger'
@@ -24,7 +23,7 @@ class Delicious
     tags
   
   rescue => e
-    @logger.error "Delicious ERROR: e.message"
+    @logger.error "Delicious ERROR: #{e.message}"
     []
   end
 end

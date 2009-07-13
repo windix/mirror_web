@@ -203,7 +203,7 @@ class Asset
         @content_type = f.content_type
         @source = escape_url(f.base_uri.to_s)
         @charset = f.charset
-        @last_modified = f.last_modified || Time.zone.now
+        @last_modified = f.last_modified || Time.now
         @data = f.read
       end
       
@@ -276,13 +276,17 @@ class Asset
 
   def get_filename
     if MIME_TYPES.has_key?(@content_type)
-      @hashcode = Digest::MD5.hexdigest(@source)
+      @hashcode = Asset.calculate_hashcode(@source)
       @extname = MIME_TYPES[@content_type]
       
       "#{@hashcode}_#{@last_modified.to_i}#{@extname}"
     end
   end
-  
+
+  def self.calculate_hashcode(source)
+    Digest::MD5.hexdigest(source)
+  end
+
   def get_page_title
     $1 if @extname == ".html" && @data =~ /<\s*title[^>]*>(.*?)<\/title>/im
   end
