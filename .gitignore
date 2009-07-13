@@ -6,7 +6,6 @@ doc/app
 db/*.sqlite?
 .DS\_Store
 config/database.yml
-*.sql
 public/assets/*
 config/initializers/site_keys.rb
 config/delicious.yml
