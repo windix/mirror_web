@@ -33,7 +33,7 @@ namespace :deploy do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
     run "ln -nfs #{shared_path}/config/delicious.yml #{release_path}/config/delicious.yml"
     run "ln -nfs #{shared_path}/config/site_keys.rb #{release_path}/config/initializers/site_keys.rb"
-    run "ln -nfs #{shared_path}/assets #{release_path}/public/assets"
+    # run "ln -nfs #{shared_path}/assets #{release_path}/public/assets"
   end
 
 end

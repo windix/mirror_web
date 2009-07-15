@@ -29,4 +29,4 @@ config.action_view.cache_template_loading            = true
 
 WEBSITE_URL = "http://mirror.douzi.org"
 ASSETS_ROOT = "/home/douziorg/addon-domains/mirror/assets"
-ASSETS_URL = "http://assets.mirror.douzi.org/assets"
+ASSETS_URL = "http://assets.mirror.douzi.org"
