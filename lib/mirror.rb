@@ -177,7 +177,7 @@ class Asset
     "text/plain" => ".txt",
   }
 
-  attr_accessor :source, :destination, :level, :retrieved, :filename, 
+  attr_accessor :source, :destination, :level, :retrieved, :dirname, :filename, 
     :hashcode, :extname, :page_title, :last_modified, :data
 
   def initialize(source, destination, level, user_agent, referer, logger)
@@ -209,14 +209,9 @@ class Asset
       
       @base = get_base
 
-      @filename = get_filename
-
-      @page_title = get_page_title
+      @retrieved = build_filename
       
-      if @filename
-        @destination = File.join(@destination, @filename)
-        @retrieved = true
-      end
+      @page_title = get_page_title
     end
   end
 
@@ -274,12 +269,28 @@ class Asset
     end
   end
 
-  def get_filename
+  def build_filename
     if MIME_TYPES.has_key?(@content_type)
       @hashcode = Asset.calculate_hashcode(@source)
       @extname = MIME_TYPES[@content_type]
       
-      "#{@hashcode}_#{@last_modified.to_i}#{@extname}"
+      dirname = @hashcode[0,2]
+      filename = File.join(dirname, "#{@hashcode[2..-1]}_#{@last_modified.to_i}#{@extname}")
+
+      # If file hash is 'abcdef', output dir is 'output':
+
+      # 'output/ab': used for creating the dir
+      @dirname = File.join(@destination, dirname)
+      
+      # 'output/ab/cdef..': the final full filename with dir
+      @destination = File.join(@destination, filename)
+      
+      # '../ab/cdef..': used for replace in the file
+      @filename = File.join('..', filename)
+      
+      true
+    else
+      false
     end
   end
 
@@ -352,6 +363,8 @@ class Asset
       if (source != @source)
         @logger.debug 'Skipped'
       else
+        FileUtils.mkdir_p(@dirname) unless File.directory?(@dirname)
+
         File.open(@destination, 'w') do |f|
           f.write(@data) 
         end

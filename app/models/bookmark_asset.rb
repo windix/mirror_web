@@ -7,16 +7,22 @@ class BookmarkAsset < ActiveRecord::Base
     :foreign_key => 'home_asset_id'
 
   def mirror_url
-    File.join("/assets", filename)
+    "#{ASSETS_URL}/#{dirname}/#{filename}"
+  end
+
+  def dirname
+    hashcode[0, 2]
   end
 
   def filename
-    "#{hashcode}_#{last_modified.to_i}#{extname}"
+    "#{hashcode[2..-1]}_#{last_modified.to_i}#{extname}"
   end
 
   def save_file(data)
-    destination = File.join(ASSETS_ROOT, filename)
+    dir = File.join(ASSETS_ROOT, dirname)
+    FileUtils.mkdir_p(dir) unless File.directory?(dir) 
     
+    destination = File.join(ASSETS_ROOT, dirname, filename)
     File.open(destination, 'w') do |f|
       f.write(data) 
     end

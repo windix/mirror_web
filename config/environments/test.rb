@@ -28,3 +28,5 @@ config.action_mailer.delivery_method = :test
 # config.active_record.schema_format = :sql
 
 WEBSITE_URL = "http://localhost:3000"
+ASSETS_ROOT = File.join(RAILS_ROOT, "public", "assets")
+ASSETS_URL = WEBSITE_URL + "/assets"

@@ -17,3 +17,5 @@ config.action_controller.perform_caching             = false
 config.action_mailer.raise_delivery_errors = false
 
 WEBSITE_URL = "http://localhost:3000"
+ASSETS_ROOT = File.join(RAILS_ROOT, "public", "assets")
+ASSETS_URL = WEBSITE_URL + "/assets"
