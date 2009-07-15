@@ -20,7 +20,9 @@ role :db,  "douzi.org", :primary => true
 ssh_options[:port] = 2650
 set :user, "douziorg"
 set :use_sudo, false
-#default_run_options[:pty] = true    # Solve 'stdin: is not a tty' prompt
+default_run_options[:pty] = true    # Solve 'stdin: is not a tty' prompt
+default_environment["GEM_HOME"] = "/home/douziorg/ruby/gems"
+default_environment["GEM_PATH"] = "/home/douziorg/ruby/gems:/usr/lib/ruby/gems/1.8"
 
 namespace :deploy do
   task :restart do
@@ -30,6 +32,7 @@ namespace :deploy do
   task :symlink_shared do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
     run "ln -nfs #{shared_path}/config/delicious.yml #{release_path}/config/delicious.yml"
+    run "ln -nfs #{shared_path}/config/site_keys.rb #{release_path}/config/initializers/site_keys.rb"
     run "ln -nfs #{shared_path}/assets #{release_path}/public/assets"
   end
 
