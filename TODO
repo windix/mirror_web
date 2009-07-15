@@ -1,9 +1,7 @@
 1. Study and improve database migration
-  1.1 solve MySQL collation problem
   1.2 solve problem on pre-defined value on newly added column
 
-2. Use HTTP Head method to detect the change on head asset
 3. Study the possibility of using Amazon S3 to store the assets
-4. Put assets on different server / domain name
+
 5. Add a web interface to access mirrored url directly. 
    e.g. mirror.abc.com/o/www.google.com
