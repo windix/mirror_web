@@ -1,4 +1,4 @@
-require 'delicious'
+require 'rest_utils'
 
 class BookmarkSitesController < ApplicationController
   before_filter :login_required, :only => [ :new, :edit, :create, :update, :destroy ]
@@ -49,14 +49,30 @@ class BookmarkSitesController < ApplicationController
     end
   end
 
+  def new_url
+  end
+
   # GET /bookmark_sites/new
   # GET /bookmark_sites/new.xml
   def new
-    @bookmark_site = BookmarkSite.new(:url => params[:url],
-      :title => params[:title])
+    if params[:new_url]
+      if params[:new_url].blank?
+        flash[:notice] = "Invalid URL"
+        redirect_to new_url_bookmark_sites_path
+        return
+      else
+        url = params[:new_url]
+        title = RestUtils.get_page_title(url)
+      end
+    elsif params[:url]
+      url = params[:url]
+      title = params[:title]
+    end
+
+    @bookmark_site = BookmarkSite.new(:url => url, :title => title)
     
-    if params[:url]
-      @bookmark_site.tag_list = @delicious.suggest_tags(params[:url]).join(", ")
+    if url
+      @bookmark_site.tag_list = @delicious.suggest_tags(url).join(", ")
     end
 
     respond_to do |format|
