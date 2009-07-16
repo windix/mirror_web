@@ -1,7 +1,7 @@
 require 'rest_utils'
 
 class BookmarkSitesController < ApplicationController
-  before_filter :login_required, :only => [ :new, :edit, :create, :update, :destroy ]
+  before_filter :login_required, :only => [ :new_url, :new, :edit, :create, :update, :destroy ]
 
   # GET /bookmark_sites
   # GET /bookmark_sites.xml
