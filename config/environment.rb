@@ -41,4 +41,4 @@ Rails::Initializer.run do |config|
   # config.i18n.default_locale = :de
 end
 
-SERVICES_PORT = 8008
+#SERVICES_PORT = 8008

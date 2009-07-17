@@ -1,4 +1,6 @@
-require 'rest_utils'
+require 'rchardet'
+require 'rest_client'
+require 'iconv'
 
 class BookmarkSitesController < ApplicationController
   before_filter :login_required, :only => [ :new_url, :new, :edit, :create, :update, :destroy ]
@@ -62,7 +64,7 @@ class BookmarkSitesController < ApplicationController
         return
       else
         url = params[:new_url]
-        title = RestUtils.get_page_title(url)
+        title = get_page_title(url)
       end
     elsif params[:url]
       url = params[:url]
@@ -137,4 +139,23 @@ class BookmarkSitesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  private
+
+  def get_page_title(url)
+    # TODO: user_agent
+    content = RestClient.get(url, :accept => "*/*") 
+
+    if content =~ /<\s*title[^>]*>(.*?)<\/title>/im
+      title = $1.strip
+      
+      cd = CharDet.detect(title)
+      encoding = cd['encoding']
+      encoding = "GBK" if encoding == "GB2312" 
+      title = Iconv.iconv('utf-8', encoding, title).to_s unless encoding == "utf-8"
+
+      title
+    end
+  end
+
 end
