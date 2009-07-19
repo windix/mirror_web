@@ -1,6 +1,8 @@
 <h1>Sign up as a new user</h1>
 
-<%= flash[:error] %>
+<% if flash[:error] -%>
+  <p class="error_message"><%= flash[:error] %></p>
+<% end -%>
 
 <% if @user %>
   <% @user.password = @user.password_confirmation = nil %>

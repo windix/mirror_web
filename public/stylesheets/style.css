@@ -113,3 +113,11 @@ a {
 .css2 { font-size: 100%; }
 .css3 { font-size: 110%; }
 .css4 { font-size: 120%; }
+
+.error_message {
+  color: red;
+}
+
+.notice_message {
+  color: green;
+}

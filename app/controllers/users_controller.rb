@@ -37,7 +37,7 @@ class UsersController < ApplicationController
     end
 
     unless valid_invitation_token?(session[:invitation_token])
-      flash[:error] = "Sorry, currently new user registration is not open to public."
+      flash.now[:error] = "Sorry, currently new user registration is not open to public."
       render :action => 'new' 
     end
   end

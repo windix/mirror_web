@@ -1,5 +1,9 @@
 <h1>Log In</h1>
 
+<% if flash[:error] -%>
+  <p class="error_message"><%= flash[:error] %></p>
+<% end -%>
+
 <% form_tag session_path do -%>
 <p><%= label_tag 'login' %><br />
 <%= text_field_tag 'login', @login %></p>
