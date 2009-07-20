@@ -10,4 +10,11 @@ module TagsHelper
       yield tag, classes[index]
     end
   end
+
+  def related_tag_path(current_tags, related_tag)
+    tags = current_tags.dup
+    
+    tags << related_tag
+    tag_path(tags.join(','))
+  end
 end

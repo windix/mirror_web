@@ -38,10 +38,10 @@ module ActiveRecord #:nodoc:
         # 
         # Options:
         #   :order - SQL Order how to order the tags. Defaults to "count DESC, tags.name".
-        def find_related_tags(tags, options = {})
+        def find_related_tags(tags, options = {}, related_models = nil)
           tags = tags.is_a?(Array) ? TagList.new(tags.map(&:to_s)) : TagList.from(tags)
           
-          related_models = find_tagged_with(tags)
+          related_models ||= find_tagged_with(tags)
           
           return [] if related_models.blank?
           

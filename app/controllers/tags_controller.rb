@@ -1,6 +1,6 @@
 class TagsController < ApplicationController
   def show
-    @tags = params[:id].split /\s*,\s*/
+    @current_tags = params[:id].split /\s*,\s*/
     
     if logged_in? 
       @bookmarks = BookmarkSite.find_tagged_with(
@@ -12,6 +12,9 @@ class TagsController < ApplicationController
         :order => 'updated_at DESC').paginate(:page => params[:page])
     end
 
+    logger.info "RELATED TAGS START"    
+    @related_tags = BookmarkSite.find_related_tags(@current_tags, {}, @bookmarks)
+    logger.info "RELATED TAGS END"    
 
     @date_groups, @date_groups_order = BookmarkSite.group_bookmarks_by_date(@bookmarks)
     

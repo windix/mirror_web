@@ -1,5 +1,5 @@
 <h1>Bookmarks</h1>
-<h2>Tags: <%= params[:id] %></h2>
+<h2>Tags: <%= @current_tags.join(", ") %></h2>
 
 <%= render :partial => 'bookmark_sites/content', 
   :locals => { :date_groups_order => @date_groups_order,

@@ -42,6 +42,15 @@
 </div>
 
 <div id="right_panel">
+  <% if @related_tags %>
+    <h2>Related Tags</h2>
+      <div class="tags">
+        <% @related_tags.each do |tag| %>
+          <%= link_to "+ #{tag.name} (#{tag.count})", related_tag_path(@current_tags, tag.name) %><br />
+        <% end %>
+      </div>
+  <% end %>
+  
   <h2>Tags</h2>
   <div class="tags">
     <% tag_cloud @tags, %w{css1 css2 css3 css4} do |tag, css_class| %>
