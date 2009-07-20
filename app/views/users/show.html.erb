@@ -1,0 +1,8 @@
+<h1>User: <%= @user.login %></h1>
+
+<p>Registered on: <%= @user.created_at.to_s(:au_date) %> </p>
+<p>Total bookmarks: <%= @user.bookmarks.size %></p>
+<p>Total tags: <%= @user.bookmarks.tag_counts.size %></p>
+
+<%= link_to 'Edit your profile', edit_user_path(@user) %><br />
+<%= link_to 'Home', bookmark_sites_path %>
