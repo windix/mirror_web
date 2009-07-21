@@ -5,3 +5,8 @@
 
 5. Add a web interface to access mirrored url directly. 
    e.g. mirror.abc.com/o/www.google.com
+
+6. i18n
+  6.1 distinguish from different region of the same locale / language: zh_CN, zh_TW with fallback (zh_SG falls to zh_CN and zh_HK falls to zh_TW)
+  6.2 i18n for plugins: will_paginate
+  6.3 i18n for controller: flash message etc. 

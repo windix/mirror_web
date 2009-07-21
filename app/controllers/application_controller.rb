@@ -45,8 +45,8 @@ class ApplicationController < ActionController::Base
 
     if session[:locale]
       I18n.locale = session[:locale]
-    elsif extract_locale_from_accept_language_header
-      I18n.locale = extract_locale_from_accept_language_header
+    #elsif extract_locale_from_accept_language_header
+    #  I18n.locale = extract_locale_from_accept_language_header
     else
       I18n.locale = I18n.default_locale
     end

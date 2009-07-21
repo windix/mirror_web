@@ -2,5 +2,10 @@
 
 LANGUAGES = {
   'English' => 'en',
-  '中文' => 'zh',
+  '简体中文' => 'zh-CN',
+  '繁體中文' => 'zh-TW',
 }
+
+fb = I18n.fallbacks
+fb.map :"zh-HK" => :"zh-TW"
+fb.map :"zh-SG" => :"zh-CN"
