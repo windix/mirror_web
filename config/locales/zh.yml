@@ -49,6 +49,5 @@ zh:
       other:          '{{count}}个版本'
     version_title:    '为 {{url}} 找到{{version}}的存档'      
     tags_title:
-      one:            '标签:'
-      other:          '标签:'
-
+      one:            '标签: {{tags}}'
+      other:          '标签: {{tags}}'

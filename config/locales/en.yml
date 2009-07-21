@@ -49,8 +49,5 @@ en:
       other:          '{{count}} versions'
     version_title:    'Found {{version}} for {{url}}'      
     tags_title:
-      one:            'Tag:'
-      other:          'Tags:'
-
-
-
+      one:            'Tag: {{tags}}'
+      other:          'Tags: {{tags}}'
