@@ -1,0 +1,54 @@
+zh:
+  common:
+    back:             "返回"
+    home:             "主页"
+    edit:             "编辑"
+    delete:           "删除"
+    confirm_delete:   "确定要删除?"
+    update:           "更新"
+    create:           "新建"
+    next:             "下一步"
+  
+  session:
+    login_title:      "用户登录"
+    login:            "用户名"
+    password:         "密码"
+    remember_me:      "记住我"
+    login_button:     "登录"
+    logout_button:    "退出"
+    logged_in_as:     "欢迎"
+  
+  users:
+    signup_title:     "新用户注册"    
+    name:             "姓名"
+    email:            "电子邮件"
+    confirm_password: "再次输入密码"
+    signup_button:    "注册"
+    update_password_prompt: "如不想修改密码请留空"
+    update_button:    "更新"
+    registered_on:    "注册始于"
+    total_bookmarks:  "书签总数"
+    total_tags:       "标签总数"
+    edit_profile:     "编辑个人信息"
+
+  bookmarks:
+    header:           "镜花缘"
+    new:              "新建书签"
+    bookmarklet:      "浏览器小书签"
+    original:         "原始链接"
+    related_tags:     "相关标签"
+    all_tags:         "全部标签"
+    edit_title:       "编辑书签"
+    url:              "链接"
+    title:            "标题"
+    notes:            "备注"
+    do_not_share:     "不分享此书签"
+    tag_list:         "标签(用逗号分隔多个标签)"
+    version:
+      one:            '{{count}}个版本'
+      other:          '{{count}}个版本'
+    version_title:    '为 {{url}} 找到{{version}}的存档'      
+    tags_title:
+      one:            '标签:'
+      other:          '标签:'
+

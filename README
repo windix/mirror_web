@@ -1,3 +1,8 @@
+Through the Looking-Glass[1]
+镜花缘[2]
+
+I named this 'mirror-web' bookmarks application after famous books related to 'mirror' in each language. :)
+
 Before running locally:
 
 - the following configuration files need to be created:
@@ -8,3 +13,6 @@ Before running locally:
   config/initializers/site_keys.rb
 
 - gem 'rchardet' need to be installed
+
+[1]: http://en.wikipedia.org/wiki/Through_the_Looking-Glass
+[2]: http://zh.wikipedia.org/wiki/镜花缘

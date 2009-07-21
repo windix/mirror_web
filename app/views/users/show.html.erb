@@ -1,8 +1,8 @@
-<h1>User: <%= @user.login %></h1>
+<h1><%=t 'session.login' %>: <%= @user.login %></h1>
 
-<p>Registered on: <%= @user.created_at.to_s(:au_date) %> </p>
-<p>Total bookmarks: <%= @user.bookmarks.size %></p>
-<p>Total tags: <%= @user.bookmarks.tag_counts.size %></p>
+<p><%=t 'users.registered_on' %>: <%=l @user.created_at.to_date, :format => :long %> </p>
+<p><%=t 'users.total_bookmarks' %>: <%= @user.bookmarks.size %></p>
+<p><%=t 'users.total_tags' %>: <%= @user.bookmarks.tag_counts.size %></p>
 
-<%= link_to 'Edit your profile', edit_user_path(@user) %><br />
-<%= link_to 'Home', bookmark_sites_path %>
+<%= link_to t('users.edit_profile'), edit_user_path(@user) %><br />
+<%= link_to t('common.home'), bookmark_sites_path %>

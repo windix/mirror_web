@@ -1,5 +1,56 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 en:
-  hello: "Hello world"
+  common:
+    back:             "Back"
+    home:             "Home"
+    edit:             "Edit"
+    delete:           "Delete"
+    confirm_delete:   "Are you sure?"
+    update:           "Update"
+    create:           "Create"
+    next:             "Next"
+  
+  session:
+    login_title:      "Log In"
+    login:            "Login"
+    password:         "Password"
+    remember_me:      "Remember me"
+    login_button:     "Log in"
+    logout_button:    "Log out"
+    logged_in_as:     "Logged in as "
+
+  users:
+    signup_title:     "Sign up as a new user"    
+    name:             "Name"
+    email:            "Email"
+    confirm_password: "Confirm Password"
+    signup_button:    "Sign up"
+    update_password_prompt: "Keep password empty if you don't want to update"
+    update_button:    "Update"
+    registered_on:    "Registered on"
+    total_bookmarks:  "Total bookmarks"
+    total_tags:       "Total tags"
+    edit_profile:     "Edit your profile"
+
+  bookmarks:
+    header:           "Through the Looking-Glass"
+    new:              "New Bookmark"
+    bookmarklet:      "Bookmarklet"
+    original:         "Original"
+    related_tags:     "Related Tags"
+    all_tags:         "All Tags"
+    edit_title:       "Edit Bookmark"
+    url:              "URL"
+    title:            "Title"
+    notes:            "Notes"
+    do_not_share:     "Do not share"
+    tag_list:         "Tags (Use commas to separate)"
+    version:
+      one:            '1 version'
+      other:          '{{count}} versions'
+    version_title:    'Found {{version}} for {{url}}'      
+    tags_title:
+      one:            'Tag:'
+      other:          'Tags:'
+
+
+

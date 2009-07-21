@@ -106,7 +106,7 @@ class BookmarkSite < ActiveRecord::Base
     bookmarks.each do |bookmark|
       if bookmark
         #date = bookmark.updated_at.to_s(:au_date)
-        date = bookmark.send(sort_date_by).to_s(:au_date)
+        date = I18n.l(bookmark.send(sort_date_by).to_date, :format => :long)
 
         groups[date] ||= begin
                           groups_order << date; []

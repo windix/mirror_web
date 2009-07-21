@@ -1,10 +1,10 @@
-<h1>New bookmark</h1>
+<h1><%=t 'bookmarks.new' %></h1>
 
 <div>
   <% form_tag new_bookmark_site_url, :method => :get do %>
-    URL <%= text_field_tag 'new_url', '', :size => 85 %> <%= submit_tag 'Next' %>
+    <%=t 'bookmarks.url' %> <%= text_field_tag 'new_url', '', :size => 85 %> <%= submit_tag t('common.next') %>
   <% end %>
 </div>
 
 <br />
-<%= link_to 'Back', bookmark_sites_path %>
+<%= link_to t('common.back'), bookmark_sites_path %>

@@ -1,32 +1,32 @@
-<h1>New bookmark</h1>
+<h1><%=t 'bookmarks.new' %></h1>
 
 <div>
 <% form_for(@bookmark_site) do |f| %>
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :url %><br />
+    <%= f.label :url, t('bookmarks.url') %><br />
     <%= f.text_field :url, :size => 60 %>
   </p>
   <p>
-    <%= f.label :title %><br />
+    <%= f.label :title, t('bookmarks.title') %><br />
     <%= f.text_field :title, :size => 60 %>
   </p>
   <p>
-    <%= f.label :notes %><br />
+    <%= f.label :notes, t('bookmarks.notes') %><br />
     <%= f.text_area :notes, :cols => 60, :rows => 10 %>
   </p>
   <p>
-    Do not share <%= f.check_box :do_not_share %>
+  <%= f.label :do_not_share, t('bookmarks.do_not_share') %> <%= f.check_box :do_not_share %>
   </p>
   <p>
-    <%= f.label :tag_list %><br />
+    <%= f.label :tag_list, t('bookmarks.tag_list') %><br />
     <%= f.text_field :tag_list, :size => 60 %>
   </p>
   <p>
-    <%= f.submit 'Create' %>
+    <%= f.submit t('common.create') %>
   </p>
 <% end %>
 </div>
 
-<%= link_to 'Back', bookmark_sites_path %>
+<%= link_to t('common.back'), bookmark_sites_path %>

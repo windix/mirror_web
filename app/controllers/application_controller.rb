@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   
   before_filter :delicious_init
+  before_filter :set_locale
 
   protected
   def tag_cloud
@@ -32,4 +33,62 @@ class ApplicationController < ActionController::Base
     config = YAML::load(File.read(File.join(RAILS_ROOT, 'config', 'delicious.yml')))
     @delicious = Delicious.new(config['username'], config['password'], logger)
   end
+
+  def set_locale
+    # priority from high to low:
+    # - user's preference (via session)
+    # - url params
+    # - browser's header
+    # - default
+
+    session[:locale] = params[:locale] if params[:locale]
+
+    if session[:locale]
+      I18n.locale = session[:locale]
+    elsif extract_locale_from_accept_language_header
+      I18n.locale = extract_locale_from_accept_language_header
+    else
+      I18n.locale = I18n.default_locale
+    end
+
+=begin    
+    I18n.backend.store_translations 'en', :version => {
+      :one => '1 version',
+      :other => '{{count}} versions'
+    }
+
+    I18n.backend.store_translations 'zh', :version => {
+      :one => '{{count}}个版本',
+      :other => '{{count}}个版本'
+    }
+=end
+
+#    session[:locale] = params[:locale] if params[:locale]
+#    I18n.locale = session[:locale] || I18n.default_locale
+
+#    locale_path = "#{LOCALES_DIRECTORY}#{I18n.locale}.yml"
+
+#    unless I18n.load_path.include? locale_path
+#      I18n.load_path << locale_path
+#      I18n.backend.send(:init_translations)
+#    end
+    
+#  rescue Exception => err
+#    logger.error err
+#    flash.now[:notice] = "#{I18n.locale} translation not available"
+
+#    I18n.load_path -= [locale_path]
+#    I18n.locale = session[:locale] = I18n.default_locale
+  end
+
+#  def default_url_options(options = {})
+#    logger.debug "default_url_options is passed options: #{options.inspect}\n"
+#    { :locale => I18n.locale }
+#  end
+
+  def extract_locale_from_accept_language_header
+    logger.debug "* Accept-Language: #{request.env['HTTP_ACCEPT_LANGUAGE']}"
+    @header_locale ||= request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first
+  end
+
 end

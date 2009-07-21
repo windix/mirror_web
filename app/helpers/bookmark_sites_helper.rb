@@ -4,6 +4,7 @@ module BookmarkSitesHelper
   end
   
   def versions_tag(site)
-    pluralize site.versions(current_user).size, "version"
+    #pluralize site.versions(current_user).size, t("bookmarks.version")
+    t 'bookmarks.version', :count => site.versions(current_user).size
   end
 end
