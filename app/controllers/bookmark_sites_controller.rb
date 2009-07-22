@@ -61,7 +61,7 @@ class BookmarkSitesController < ApplicationController
   def new
     if params[:new_url]
       unless url = URLUtils.validate_and_format_url(params[:new_url])
-        flash[:notice] = "Invalid URL: #{params[:new_url]}"
+        flash[:notice] = t('bookmarks.msg_invalid_url', :url => params[:new_url])
         redirect_to new_url_bookmark_sites_path
         return
       else
@@ -98,9 +98,9 @@ class BookmarkSitesController < ApplicationController
     respond_to do |format|
       if @bookmark_site.save_bookmark
         if @bookmark_site.existing_site?
-          flash[:notice] = 'Bookmark was successfully updated.'
+          flash[:notice] = t('bookmarks.msg_bookmark_updated')
         else
-          flash[:notice] = 'Bookmark was successfully created.'
+          flash[:notice] = t('bookmarks.msg_bookmark_created')
         end
           
         format.html { redirect_to bookmark_sites_path }
@@ -119,7 +119,7 @@ class BookmarkSitesController < ApplicationController
 
     respond_to do |format|
       if @bookmark_site.update_attributes(params[:bookmark_site])
-        flash[:notice] = 'Bookmark was successfully updated.'
+        flash[:notice] = t('bookmarks.msg_bookmark_updated')
         format.html { redirect_to bookmark_sites_path }
         format.xml  { head :ok }
       else

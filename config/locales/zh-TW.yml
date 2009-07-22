@@ -8,8 +8,9 @@
      update: "更新" 
      create: "新建" 
      next: "下一步" 
-
+  
    session: 
+     # views 
      login_title: "用戶登錄" 
      login: "用戶名" 
      password: "密碼" 
@@ -17,8 +18,15 @@
      login_button: "登錄" 
      logout_button: "退出" 
      logged_in_as: "歡迎" 
-
+    
+     # controller 
+     msg_login_password_empty: "用戶名密碼不能為空" 
+     msg_login_succeed: "您已經成功登錄" 
+     msg_login_failed: "您使用用戶名'{{login}}'登錄失敗" 
+     msg_logout_succeed: "您已經成功退出" 
+  
    users: 
+     # views 
      signup_title: "新用戶註冊" 
      name: "姓名" 
      email: "電子郵件" 
@@ -30,8 +38,15 @@
      total_bookmarks: "書籤總數" 
      total_tags: "標籤總數" 
      edit_profile: "編輯個人信息" 
+    
+     # controller 
+     msg_signup_succeed: "恭喜!您已經註冊成功" 
+     msg_signup_failed: "抱歉,無法註冊您的帳戶.請重試或聯繫管理員" 
+     msg_profile_updated: "您的個人資料已更新" 
+     msg_invitation_required: "抱歉,目前暫時不對外開放註冊" 
 
    bookmarks: 
+     # views 
      header: "鏡花緣" 
      new: "新建書籤" 
      bookmarklet: "瀏覽器小書籤" 
@@ -47,7 +62,13 @@
      version: 
        one: '{{count}}個版本' 
        other: '{{count}}個版本' 
-     version_title: '為{{url}}找到{{version}}的存檔' 
+     version_title: '為{{url}}找到{{version}}的存檔'
      tags_title: 
        one: '標籤: {{tags}}' 
-       other: '標籤: {{tags}}'
+       other: '標籤: {{tags}}' 
+    
+     # controller 
+     msg_invalid_url: "無效鏈接: {{url}}" 
+     msg_bookmark_created: "書籤建立成功" 
+     msg_bookmark_updated: "書籤更新成功"
+

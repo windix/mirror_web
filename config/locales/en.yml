@@ -10,6 +10,7 @@ en:
     next:             "Next"
   
   session:
+    # views
     login_title:      "Log In"
     login:            "Login"
     password:         "Password"
@@ -17,8 +18,15 @@ en:
     login_button:     "Log in"
     logout_button:    "Log out"
     logged_in_as:     "Logged in as "
+    
+    # controller
+    msg_login_password_empty: "Login and password cannot be empty."
+    msg_login_succeed:  "Logged in successfully."
+    msg_login_failed:   "Couldn't log you in as '{{login}}'"
+    msg_logout_succeed: "You have been logged out."
 
   users:
+    # views
     signup_title:     "Sign up as a new user"    
     name:             "Name"
     email:            "Email"
@@ -31,7 +39,14 @@ en:
     total_tags:       "Total tags"
     edit_profile:     "Edit your profile"
 
+    # controller
+    msg_signup_succeed: "Thanks for signing up!"
+    msg_signup_failed:  "We couldn't set up that account, sorry. Please try again, or contact an admin."
+    msg_profile_updated:  "Profile was successfully updated."
+    msg_invitation_required:  "Sorry, currently new user registration is not open to public."
+
   bookmarks:
+    # views
     header:           "Through the Looking-Glass"
     new:              "New Bookmark"
     bookmarklet:      "Bookmarklet"
@@ -51,3 +66,9 @@ en:
     tags_title:
       one:            'Tag: {{tags}}'
       other:          'Tags: {{tags}}'
+
+    # controller
+    msg_invalid_url:  "Invalid URL: {{url}}"
+    msg_bookmark_created:  "Bookmark was successfully created."
+    msg_bookmark_updated:  "Bookmark was successfully updated."
+

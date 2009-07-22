@@ -18,9 +18,9 @@ class UsersController < ApplicationController
       # reset session
       self.current_user = @user # !! now logged in
       redirect_back_or_default('/')
-      flash[:notice] = "Thanks for signing up!" #  We're sending you an email with your activation code."
+      flash[:notice] = t('users.msg_signup_succeed')
     else
-      flash[:error]  = "We couldn't set up that account, sorry.  Please try again, or contact an admin (link is above)."
+      flash[:error]  = t('users.msg_signup_failed')
       render :action => 'new'
     end
   end
@@ -42,7 +42,7 @@ class UsersController < ApplicationController
     end
 
     if @user.update_attributes(params[:user])
-      flash[:notice] = "Profile was successfully updated."
+      flash[:notice] = t('users.msg_profile_updated')
       redirect_to(@user)
     else
       render :action => 'edit'
@@ -61,7 +61,7 @@ class UsersController < ApplicationController
     end
 
     unless valid_invitation_token?(session[:invitation_token])
-      flash.now[:error] = "Sorry, currently new user registration is not open to public."
+      flash.now[:error] = t('users.msg_invitation_required')
       render :action => 'new' 
     end
   end

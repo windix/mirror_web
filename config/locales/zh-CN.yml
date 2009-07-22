@@ -10,6 +10,7 @@
     next:             "下一步"
   
   session:
+    # views
     login_title:      "用户登录"
     login:            "用户名"
     password:         "密码"
@@ -17,8 +18,15 @@
     login_button:     "登录"
     logout_button:    "退出"
     logged_in_as:     "欢迎"
+    
+    # controller
+    msg_login_password_empty: "用户名密码不能为空"
+    msg_login_succeed:  "您已经成功登录"
+    msg_login_failed:   "您使用用户名'{{login}}'登录失败"
+    msg_logout_succeed: "您已经成功退出"
   
   users:
+    # views
     signup_title:     "新用户注册"    
     name:             "姓名"
     email:            "电子邮件"
@@ -30,8 +38,15 @@
     total_bookmarks:  "书签总数"
     total_tags:       "标签总数"
     edit_profile:     "编辑个人信息"
+    
+    # controller
+    msg_signup_succeed: "恭喜! 您已经注册成功"
+    msg_signup_failed:  "抱歉, 无法注册您的帐户. 请重试或联系管理员"
+    msg_profile_updated:  "您的个人资料已更新"
+    msg_invitation_required:  "抱歉, 目前暂时不对外开放注册"
 
   bookmarks:
+    # views
     header:           "镜花缘"
     new:              "新建书签"
     bookmarklet:      "浏览器小书签"
@@ -51,3 +66,9 @@
     tags_title:
       one:            '标签: {{tags}}'
       other:          '标签: {{tags}}'
+    
+    # controller
+    msg_invalid_url:  "无效链接: {{url}}"
+    msg_bookmark_created:  "书签建立成功"
+    msg_bookmark_updated:  "书签更新成功"
+
