@@ -1,6 +1,7 @@
 require 'rest_client'
 require 'rexml/document'
 require 'logger'
+require 'url_utils'
 
 class Delicious
   def initialize(username, password, logger = Logger.new($stdout))
@@ -14,7 +15,7 @@ class Delicious
   def suggest_tags(url) 
     tags = []
     
-    request_url = "#{@base_url}posts/suggest?url=#{url}"
+    request_url = "#{@base_url}posts/suggest?url=#{URLUtils.escape_url(url)}"
     
     result = RestClient.get request_url
 

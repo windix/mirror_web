@@ -1,6 +1,8 @@
 require 'rchardet'
 require 'rest_client'
 require 'iconv'
+require 'cgi'
+require 'url_utils'
 
 class BookmarkSitesController < ApplicationController
   before_filter :login_required, :only => [ :new_url, :new, :edit, :create, :update, :destroy ]
@@ -58,12 +60,11 @@ class BookmarkSitesController < ApplicationController
   # GET /bookmark_sites/new.xml
   def new
     if params[:new_url]
-      if params[:new_url].blank?
-        flash[:notice] = "Invalid URL"
+      unless url = URLUtils.validate_and_format_url(params[:new_url])
+        flash[:notice] = "Invalid URL: #{params[:new_url]}"
         redirect_to new_url_bookmark_sites_path
         return
       else
-        url = params[:new_url]
         title = get_page_title(url)
       end
     elsif params[:url]
@@ -144,7 +145,7 @@ class BookmarkSitesController < ApplicationController
 
   def get_page_title(url)
     # TODO: user_agent
-    content = RestClient.get(url, :accept => "*/*") 
+    content = RestClient.get(URLUtils.escape_url(url), :accept => "*/*") 
 
     if content =~ /<\s*title[^>]*>(.*?)<\/title>/im
       title = $1.strip
@@ -154,8 +155,7 @@ class BookmarkSitesController < ApplicationController
       encoding = "GBK" if encoding == "GB2312" 
       title = Iconv.iconv('utf-8', encoding, title).to_s unless encoding == "utf-8"
 
-      title
+      CGI.unescapeHTML title
     end
   end
-
 end
