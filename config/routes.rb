@@ -10,7 +10,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :bookmark_sites, :as => 'bookmarks', 
     :collection => { :new_url => :get }, :member => { :versions => :get }
 
-  map.resources :tags, :path_prefix => 'bookmarks', :only => [ :show ]
+  map.resources :tags, :path_prefix => 'bookmarks', :only => [ :show ], 
+    :requirements => {:id => /[+.a-zA-Z0-9]+/}
 
   map.root :controller => 'bookmark_sites'
 
@@ -55,6 +56,6 @@ ActionController::Routing::Routes.draw do |map|
   # Install the default routes as the lowest priority.
   # Note: These default routes make all actions in every controller accessible via GET requests. You should
   # consider removing the them or commenting them out if you're using named routes and resources.
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
+  # map.connect ':controller/:action/:id'
+  # map.connect ':controller/:action/:id.:format'
 end
