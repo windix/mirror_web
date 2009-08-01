@@ -4,6 +4,7 @@ doc/api
 doc/app
 *.sw?
 db/*.sqlite?
+db/data.yml
 .DS\_Store
 config/database.yml
 *.sql
