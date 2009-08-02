@@ -16,6 +16,7 @@ set :scm, "git"
 set :branch, "master"
 set :deploy_via, :remote_cache
 set :get_shallow_clone, 1
+set :rails_env, "production"
 
 role :app, "ozdiy.com"
 role :web, "ozdiy.com"
