@@ -1,7 +1,29 @@
 #!/usr/bin/env ruby
 
-# Daemons sets pwd to /, so we have to explicitly set RAILS_ROOT
-RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))
+# source: http://gist.github.com/104314
+# http://www.magnionlabs.com/2009/2/28/background-job-processing-in-rails-with-delayed_job
 
-require File.join(File.dirname(__FILE__), *%w(.. vendor plugins delayed_job lib delayed command))
-Delayed::Command.new(ARGV).daemonize
+# -*- ruby -*-
+require 'rubygems'
+require 'daemon-spawn'
+ 
+RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))
+ 
+class DelayedJobWorker < DaemonSpawn::Base
+  def start(args)
+    ENV['RAILS_ENV'] ||= args.first || 'development'
+    Dir.chdir RAILS_ROOT
+    require File.join('config', 'environment')
+ 
+    Delayed::Worker.new.start
+  end
+ 
+  def stop
+    system("kill `cat #{RAILS_ROOT}/tmp/pids/delayed_job.pid`")
+  end
+end
+ 
+DelayedJobWorker.spawn!(:log_file => File.join(RAILS_ROOT, "log", "delayed_job.log"),
+                        :pid_file => File.join(RAILS_ROOT, 'tmp', 'pids', 'delayed_job.pid'),
+                        :sync_log => true,
+                        :working_dir => RAILS_ROOT)
