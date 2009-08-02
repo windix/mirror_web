@@ -66,9 +66,14 @@ en:
     tags_title:
       one:            'Tag: {{tags}}'
       other:          'Tags: {{tags}}'
-
+    status_in_progress: 'In Progress'
+    status_failed_to_fetch: 'Failed to Fetch'
+    bookmark_last_modified: 'Bookmark last edited on'
+    page_last_modified: 'Page last modified on' 
+    
     # controller
     msg_invalid_url:  "Invalid URL: {{url}}"
     msg_bookmark_created:  "Bookmark was successfully created."
     msg_bookmark_updated:  "Bookmark was successfully updated."
-
+    msg_bookmark_queued:  "Your bookmark has been queued. Mirror in progress..."
+    

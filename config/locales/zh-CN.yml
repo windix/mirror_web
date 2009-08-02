@@ -66,9 +66,13 @@
     tags_title:
       one:            '标签: {{tags}}'
       other:          '标签: {{tags}}'
+    status_in_progress: '镜像中'
+    status_failed_to_fetch: '镜像失败'
+    bookmark_last_modified: '书签上次编辑时间'
+    page_last_modified: '镜像页面最后更新时间'    
     
     # controller
     msg_invalid_url:  "无效链接: {{url}}"
     msg_bookmark_created:  "书签建立成功"
     msg_bookmark_updated:  "书签更新成功"
-
+    msg_bookmark_queued:  "您的书签已加入镜像队列, 正在处理中..."

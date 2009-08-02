@@ -1,5 +1,5 @@
-require 'mirror'
 require 'rest_client'
+require 'mirror'
 
 class BookmarkSite < ActiveRecord::Base
   acts_as_taggable
@@ -34,69 +34,8 @@ class BookmarkSite < ActiveRecord::Base
     10
   end
 
-  def existing_site?
-    ! @existing_site.nil?
-  end
-
   def last_modified
     home_asset.last_modified if home_asset
-  end
-
-  def save_bookmark
-    return false unless self.valid?
-      
-    # update title
-    self.title = "NO TITLE" if self.title.blank?
-
-    if @existing_site = find_existing_site?(self.url)
-        # update existing site's last update time
-        @existing_site.update_attributes!(
-          :title => self.title,
-          :notes => self.notes,
-          :tag_list => self.tag_list,
-          :updated_at => Time.zone.now)
-        
-        true
-    else
-      # fetch web pages
-      site = Site.new(url, ASSETS_ROOT, false, logger)
-
-      if (site.mirror_completed)
-        
-        # save site
-        self.save!
-          
-        # save assets
-        site.assets.each do |source, asset|
-          if asset.retrieved
-            unless bookmark_asset = BookmarkAsset.existing_asset?(asset)
-              bookmark_asset = BookmarkAsset.create(
-                :hashcode => asset.hashcode, 
-                :extname => asset.extname,
-                :last_modified => asset.last_modified)
-              
-              bookmark_asset.save_file(asset.data) if (source == asset.source)
-            end
-            
-            bookmark_assets << bookmark_asset
-
-            # update home_asset
-            self.home_asset = bookmark_asset if (asset.hashcode == site.home_asset.hashcode)
-          end
-        end
-        
-        self.save!
-        true
-      else
-        errors.add_to_base("Failed to mirror the web page, please try again")
-        false
-      end
-    end 
-  
-  rescue => exception
-    logger.info exception
-    errors.add_to_base("#{exception.message}, please try again")
-    false
   end
 
   def self.group_bookmarks_by_date(bookmarks, sort_date_by = :updated_at)
@@ -133,9 +72,7 @@ class BookmarkSite < ActiveRecord::Base
     end
   end
 
-  private
-
-  def find_existing_site?(url)
+  def self.version_exists?(url, user_id)
     #TODO user-agent
     
     response = RestClient.head(url, :accept => '*/*')
@@ -149,7 +86,7 @@ class BookmarkSite < ActiveRecord::Base
     hashcode = Asset.calculate_hashcode(response.url)
 
     results = BookmarkSite.find_by_sql(['SELECT site.* FROM bookmark_sites as site inner join bookmark_assets as asset on site.home_asset_id = asset.id WHERE asset.hashcode = ? and asset.last_modified = ? and site.user_id = ?', 
-                          hashcode, last_modified.in_time_zone, self.user_id])
+                          hashcode, last_modified.in_time_zone, user_id])
     return results[0] unless results.size == 0
   end
 end

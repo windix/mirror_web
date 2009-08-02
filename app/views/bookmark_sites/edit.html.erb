@@ -1,8 +1,14 @@
 <h1><%=t 'bookmarks.edit_title' %></h1>
 
+<div>
 <% form_for(@bookmark_site) do |f| %>
   <%= f.error_messages %>
-
+  <p>
+    <%= "#{t('bookmarks.bookmark_last_modified')}: #{@bookmark_site.updated_at.to_s(:long)}" %>
+  </p>
+  <p>
+    <%= "#{t('bookmarks.page_last_modified')}: #{@bookmark_site.last_modified.to_s(:long)}" %>
+  </p>
   <p>
     <%= f.label :url, t('bookmarks.url') %><br />
     <%= f.text_field :url, :size => 60 %>
@@ -26,5 +32,6 @@
     <%= f.submit t('common.update') %>
   </p>
 <% end %>
+</div>
 
 <%= link_to t('common.back'), bookmark_sites_path %>

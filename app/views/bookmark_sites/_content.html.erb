@@ -11,8 +11,11 @@
       <ul class="bookmarks">
         <% date_groups[date].each do |bookmark_site| %>
           <li class="bookmark">
-          <h4><%= "* " if bookmark_site.do_not_share? %><%= link_to bookmark_site.title, bookmark_site.mirror_url %></h4>
-          <span class="time"><%= bookmark_site.updated_at.to_s(:time_only) %></span>
+          <h4>
+            <span class="do_not_share"><%= "* " if bookmark_site.do_not_share? %></span>
+            <%= mirror_url_tag bookmark_site %>
+          </h4>
+          <span class="time"><%= fetch_status_tag bookmark_site %></span>
           <div class="tags">
             <% bookmark_site.tag_list.each do |tag| %>
               <%= link_to tag, tag_path(tag) %> 

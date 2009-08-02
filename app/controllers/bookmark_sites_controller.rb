@@ -7,8 +7,7 @@ require 'url_utils'
 class BookmarkSitesController < ApplicationController
   before_filter :login_required, :only => [ :new_url, :new, :edit, :create, :update, :destroy ]
 
-  # GET /bookmark_sites
-  # GET /bookmark_sites.xml
+  # GET /bookmarks
   def index
     if logged_in?
       @bookmarks = BookmarkSite.all_for_user(current_user).paginate :page => params[:page]
@@ -19,15 +18,9 @@ class BookmarkSitesController < ApplicationController
     @date_groups, @date_groups_order = BookmarkSite.group_bookmarks_by_date(@bookmarks)
 
     tag_cloud
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @date_groups }
-    end
   end
 
-  # GET /bookmark_sites/1/version
-  # GET /bookmark_sites/1/version.xml
+  # GET /bookmarks/1/versions
   def versions
     @bookmark = BookmarkSite.find(params[:id])
 
@@ -35,29 +28,19 @@ class BookmarkSitesController < ApplicationController
     @date_groups, @date_groups_order = BookmarkSite.group_bookmarks_by_date(@bookmarks, :last_modified)
 
     tag_cloud_for_versions(@bookmarks)
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @date_groups }
-    end
   end
 
-  # GET /bookmark_sites/1
-  # GET /bookmark_sites/1.xml
+  # GET /bookmarks/1
+  # TODO: not in use so far
   def show
     @bookmark_site = BookmarkSite.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @bookmark_site }
-    end
   end
 
+  # GET /bookmarks/new_url
   def new_url
   end
 
-  # GET /bookmark_sites/new
-  # GET /bookmark_sites/new.xml
+  # GET /bookmarks/new
   def new
     if params[:new_url]
       unless url = URLUtils.validate_and_format_url(params[:new_url])
@@ -72,73 +55,53 @@ class BookmarkSitesController < ApplicationController
       title = params[:title]
     end
 
-    @bookmark_site = BookmarkSite.new(:url => url, :title => title)
-    
-    if url
+    if @bookmark_site = BookmarkSite.version_exists?(url, current_user.id)
+      render :action => "edit"
+    else
+      @bookmark_site = BookmarkSite.new(:url => url, :title => title)
       @bookmark_site.tag_list = @delicious.suggest_tags(url).join(", ")
-    end
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @bookmark_site }
     end
   end
 
-  # GET /bookmark_sites/1/edit
+  # GET /bookmarks/1/edit
   def edit
     @bookmark_site = BookmarkSite.find(params[:id])
   end
 
-  # POST /bookmark_sites
-  # POST /bookmark_sites.xml
+  # POST /bookmarks
   def create
     @bookmark_site = BookmarkSite.new(params[:bookmark_site])
     @bookmark_site.user = current_user
-
-    respond_to do |format|
-      if @bookmark_site.save_bookmark
-        if @bookmark_site.existing_site?
-          flash[:notice] = t('bookmarks.msg_bookmark_updated')
-        else
-          flash[:notice] = t('bookmarks.msg_bookmark_created')
-        end
-          
-        format.html { redirect_to bookmark_sites_path }
-        format.xml  { render :xml => @bookmark_site, :status => :created, :location => @bookmark_site }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @bookmark_site.errors, :status => :unprocessable_entity }
-      end
+    @bookmark_site.fetch_status = "UNFETCHED"
+    
+    if @bookmark_site.save
+      Delayed::Job.enqueue(MirrorJob.new(@bookmark_site.id))
+      
+      flash[:notice] = t('bookmarks.msg_bookmark_queued')
+      redirect_to bookmark_sites_path
+    else
+      render :action => "new"
     end
   end
 
-  # PUT /bookmark_sites/1
-  # PUT /bookmark_sites/1.xml
+  # PUT /bookmarks/1
   def update
     @bookmark_site = BookmarkSite.find(params[:id])
-
-    respond_to do |format|
-      if @bookmark_site.update_attributes(params[:bookmark_site])
-        flash[:notice] = t('bookmarks.msg_bookmark_updated')
-        format.html { redirect_to bookmark_sites_path }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @bookmark_site.errors, :status => :unprocessable_entity }
-      end
+    
+    if @bookmark_site.update_attributes(params[:bookmark_site])
+      flash[:notice] = t('bookmarks.msg_bookmark_updated')
+      redirect_to bookmark_sites_path
+    else
+      render :action => "edit"
     end
   end
 
-  # DELETE /bookmark_sites/1
-  # DELETE /bookmark_sites/1.xml
+  # DELETE /bookmarks/1
   def destroy
     @bookmark_site = BookmarkSite.find(params[:id])
     @bookmark_site.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(bookmark_sites_url) }
-      format.xml  { head :ok }
-    end
+    
+    redirect_to bookmark_sites_url
   end
 
   private
