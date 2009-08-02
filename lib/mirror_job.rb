@@ -28,15 +28,13 @@ class MirrorJob < Struct.new(:site_id)
           bookmark_site.home_asset = bookmark_asset if (asset.hashcode == site.home_asset.hashcode)
         end
       end
-      
-      bookmark_site.save!
-    # else
-    #   errors.add_to_base("Failed to mirror the web page, please try again")
-    #   false
+    else
+      bookmark_site.fetch_status = "FAILED"
     end
   rescue => exception
     Rails.logger.info exception
-    # errors.add_to_base("#{exception.message}, please try again")
-    # false
+    bookmark_site.fetch_status = "FAILED"
+  ensure
+    bookmark_site.save!
   end
 end
