@@ -29,6 +29,10 @@ class BookmarkSitesController < ApplicationController
 
     tag_cloud_for_versions(@bookmarks)
   end
+  
+  def stats
+    @bookmark = BookmarkSite.find(params[:id])
+  end
 
   # GET /bookmarks/1
   # TODO: not in use so far

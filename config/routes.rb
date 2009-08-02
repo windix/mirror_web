@@ -8,7 +8,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :session
 
   map.resources :bookmark_sites, :as => 'bookmarks', 
-    :collection => { :new_url => :get }, :member => { :versions => :get }
+    :collection => { :new_url => :get }, :member => { :versions => :get, :stats => :get }
 
   map.resources :tags, :path_prefix => 'bookmarks', :only => [ :show ], 
     :requirements => {:id => /.*/}

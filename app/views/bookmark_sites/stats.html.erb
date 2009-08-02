@@ -1,0 +1,6 @@
+<% @bookmark.bookmark_assets.each do |asset| %>
+  <% if ['.jpg'].include?(asset.extname)  %>
+    <p><%= asset.mirror_url %><br />
+      <img src="<%= asset.mirror_url %>" /></p>
+  <% end %>
+<% end %>
