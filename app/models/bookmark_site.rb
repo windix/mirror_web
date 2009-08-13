@@ -75,7 +75,7 @@ class BookmarkSite < ActiveRecord::Base
   def self.version_exists?(url, user_id)
     #TODO user-agent
     
-    response = RestClient.head(url, :accept => '*/*')
+    response = RestClient.head(url, :accept => '*/*', :user_agent => USER_AGENT)
     
     last_modified = if v = response.headers[:last_modified] 
                       Time.httpdate(v)

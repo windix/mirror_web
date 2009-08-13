@@ -43,3 +43,4 @@ Rails::Initializer.run do |config|
 end
 
 #SERVICES_PORT = 8008
+USER_AGENT = "Mozilla/5.0 (compatible; mirror; ruby/#{RUBY_VERSION}/#{RUBY_PLATFORM})"

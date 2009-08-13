@@ -112,7 +112,7 @@ class BookmarkSitesController < ApplicationController
 
   def get_page_title(url)
     # TODO: user_agent
-    content = RestClient.get(URLUtils.escape_url(url), :accept => "*/*") 
+    content = RestClient.get(URLUtils.escape_url(url), :accept => "*/*", :user_agent => USER_AGENT) 
 
     if content =~ /<\s*title[^>]*>(.*?)<\/title>/im
       title = $1.strip
