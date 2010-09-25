@@ -12,7 +12,17 @@ Before running locally:
   config/delicious.yml
   config/initializers/site_keys.rb
 
-- gem 'rchardet' need to be installed
+Gem list:
+- mysql
+- rchardet
+- damemon-spawn
+
+Delayed Job:
+script/server start production
+
+Bookmarklet:
+
+javascript:(function(){f='http://mirror.ozdiy.com/bookmarks/new?url='+encodeURIComponent(window.location.href)+'&title='+encodeURIComponent(document.title);a=function(){location.href=f};if(/Firefox/.test(navigator.userAgent)){setTimeout(a,0)}else{a()}})()
 
 [1]: http://en.wikipedia.org/wiki/Through_the_Looking-Glass
 [2]: http://zh.wikipedia.org/wiki/镜花缘
