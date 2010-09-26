@@ -1,4 +1,7 @@
-require 'mongrel_cluster/recipes'
+$:.unshift(File.expand_path('./lib', ENV['rvm_path'])) # Add RVM's lib directory to the load path.
+require "rvm/capistrano"                  # Load RVM's capistrano plugin.
+#set :rvm_ruby_string, 'wfeng'        # Or whatever env you want it to run in.
+set :rvm_type, :user
 
 set :application, "mirror.ozdiy.com"
 
@@ -7,20 +10,18 @@ set :application, "mirror.ozdiy.com"
 # via the :deploy_to variable:
 set :deploy_to, "/var/www/#{application}"
 
+set :use_sudo, false
+
 # If you aren't using Subversion to manage your source code, specify
 # your SCM below:
 # set :scm, :subversion
 #set :repository, "ssh://win-server/~/git/mirror_web.git"
-set :repository, "git@github.com:windix/mirror_web.git"
-set :scm, "git"
+set :repository, "git@windix.org:mirror_web.git"
+set :scm, :git
 set :branch, "master"
-set :deploy_via, :remote_cache
-set :get_shallow_clone, 1
 set :rails_env, "production"
 
-role :app, "ozdiy.com"
-role :web, "ozdiy.com"
-role :db,  "ozdiy.com", :primary => true
+server "windix.org", :web, :app, :db, :primary => true
 
 #ssh_options[:port] = 2650
 set :user, "wfeng"
@@ -28,8 +29,6 @@ set :user, "wfeng"
 #default_run_options[:pty] = true    # Solve 'stdin: is not a tty' prompt
 #default_environment["GEM_HOME"] = "/home/douziorg/ruby/gems"
 #default_environment["GEM_PATH"] = "/home/douziorg/ruby/gems:/usr/lib/ruby/gems/1.8"
-
-set :mongrel_conf, "#{current_path}/config/mongrel_cluster.yml"
 
 namespace :delayed_job do
   desc "Start delayed_job process" 
@@ -49,12 +48,17 @@ namespace :delayed_job do
 end
 
 namespace :deploy do
+  task :start do ; end
+  task :stop do ; end
+  task :restart, :roles => :app, :except => { :no_release => true } do
+    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+  end
+
   task :symlink_shared do
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
     run "ln -nfs #{shared_path}/config/delicious.yml #{release_path}/config/delicious.yml"
     run "ln -nfs #{shared_path}/config/site_keys.rb #{release_path}/config/initializers/site_keys.rb"
     run "ln -nfs #{shared_path}/assets #{release_path}/public/assets"
-    run "ln -nfs #{shared_path}/config/mongrel_cluster.yml #{release_path}/config/mongrel_cluster.yml"
     run "ln -nfs #{shared_path}/config/production.rb #{release_path}/config/environments/production.rb"
   end
 end
